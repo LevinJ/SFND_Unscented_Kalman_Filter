@@ -103,10 +103,13 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 			float phi = meas_package.raw_measurements_(1);
 			float rho_dot = meas_package.raw_measurements_(2);
 
-			float x = rho*sin(phi);
-			float y = rho*cos(phi);
+			float x = rho*cos(phi);
+			float y = rho*sin(phi);
+			double vx = rho_dot * cos(phi);
+			double vy = rho_dot * sin(phi);
+			double v = sqrt(vx * vx + vy * vy);
 
-			x_ << x,  y, rho_dot, phi, 0;
+			x_ << x,  y, v, 0, 0;
 
 			P_ <<  1, 0, 0, 0, 0,
 					0, 1, 0, 0, 0,
